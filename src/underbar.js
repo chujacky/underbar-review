@@ -229,17 +229,9 @@
     if (iterator === undefined) {
       iterator = _.identity;
     }
-/*    return _.reduce(collection, function (anyTrue, value) {
-      if (iterator(value) || anyTrue) {
-        return true;
-      }   
-      return false;
-    }, false);
-*/
     return !_.every(collection, function(value) {
       return !iterator(value);
     });
-    
   };
 
   /**
@@ -261,11 +253,26 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    for ( var i = 1; i < arguments.length; i++ ) {
+      for ( var key in arguments[i] ) {
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
+
   _.defaults = function(obj) {
+    for (var i = 1; i < arguments.length; i++) {
+      _.each(arguments[i], function(value, key) {
+        if (!obj.hasOwnProperty(key)) {
+          obj[key] = value;
+        }
+      }); 
+    }
+    return obj;
   };
 
 
@@ -283,7 +290,28 @@
     // TIP: These variables are stored in a "closure scope" (worth researching),
     // so that they'll remain available to the newly-generated function every
     // time it's called.
-    var alreadyCalled = false;
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  };
+
+
+
+
+var alreadyCalled = false;
     var result;
 
     // TIP: We'll return a new function that delegates to the old one, but only
@@ -298,7 +326,6 @@
       // The new function always returns the originally computed result.
       return result;
     };
-  };
 
   // Memorize an expensive function's results by storing them. You may assume
   // that the function only takes primitives as arguments.
