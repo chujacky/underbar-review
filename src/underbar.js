@@ -189,22 +189,21 @@
       });
     } else {
       _.each(collection, function(value, index) {
-        console.log(accumulator);
         accumulator = iterator(accumulator, value);
       });
     }
-  return accumulator;
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
+    return _.reduce(collection, function(wasFound, value) {
+      if(wasFound) {
         return true;
       }
-      return item === target;
+      return value === target;
     }, false);
   };
 
@@ -212,14 +211,36 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+    return _.reduce(collection, function(allTrue, value) {
+      if (allTrue && iterator(value)) {
+        return true;
+      }
+      return false;
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (iterator === undefined) {
+      iterator = _.identity;
+    }
+/*    return _.reduce(collection, function (anyTrue, value) {
+      if (iterator(value) || anyTrue) {
+        return true;
+      }   
+      return false;
+    }, false);
+*/
+    return !_.every(collection, function(value) {
+      return !iterator(value);
+    });
+    
   };
-
 
   /**
    * OBJECTS
