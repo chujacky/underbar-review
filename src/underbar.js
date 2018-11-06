@@ -290,28 +290,7 @@
     // TIP: These variables are stored in a "closure scope" (worth researching),
     // so that they'll remain available to the newly-generated function every
     // time it's called.
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  };
-
-
-
-
-var alreadyCalled = false;
+    var alreadyCalled = false;
     var result;
 
     // TIP: We'll return a new function that delegates to the old one, but only
@@ -326,6 +305,12 @@ var alreadyCalled = false;
       // The new function always returns the originally computed result.
       return result;
     };
+  };
+
+
+
+
+
 
   // Memorize an expensive function's results by storing them. You may assume
   // that the function only takes primitives as arguments.
