@@ -200,7 +200,7 @@
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     return _.reduce(collection, function(wasFound, value) {
-      if(wasFound) {
+      if (wasFound) {
         return true;
       }
       return value === target;
@@ -292,7 +292,6 @@
     // time it's called.
     var alreadyCalled = false;
     var result;
-
     // TIP: We'll return a new function that delegates to the old one, but only
     // if it hasn't been called before.
     return function() {
@@ -308,10 +307,6 @@
   };
 
 
-
-
-
-
   // Memorize an expensive function's results by storing them. You may assume
   // that the function only takes primitives as arguments.
   // memoize could be renamed to oncePerUniqueArgumentList; memoize does the
@@ -321,6 +316,15 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var argumentsList = {};
+    return function() {
+      var args = JSON.stringify(arguments);
+      if (argumentsList.hasOwnProperty(args)) {
+        return argumentsList[args];
+      } 
+      argumentsList[args] = func.apply(this, arguments);
+      return argumentsList[args];
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -330,6 +334,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments).slice(2);
+    return setTimeout(function() {
+      func.apply(this, args);
+    }, wait);
+
   };
 
 
@@ -344,6 +353,17 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var copy = array.slice();
+    var length = array.length;
+    while (length > 0) {
+      var temp = copy[length - 1];
+      var randIndex = Math.floor(Math.random() * length);
+      copy[length - 1] = copy[randIndex];
+      copy[randIndex] = temp;
+      length -= 1;
+    }
+    return copy;
+
   };
 
 
